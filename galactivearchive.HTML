@@ -15,7 +15,6 @@
             font-family: Consolas, "Lucida Console", "Courier New", monospace;
             margin: 0;
             line-height: 1.4;
-            overflow-x: hidden;
         }
 
         /* Color Themes & CRT Phosphor Glow */
@@ -28,13 +27,11 @@
             color: #eab308;
             text-shadow: 0 0 6px rgba(234, 179, 8, 0.4);
         }
-        .theme-classic .border-color { border-color: #555555; }
-        .theme-classic .bg-active { background-color: #333333; color: #ffffff; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 16px; }
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
         ::-webkit-scrollbar-track { background: #0c0c0c; }
-        ::-webkit-scrollbar-thumb { background: #333333; border: 4px solid #0c0c0c; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb { background: #333333; border: 3px solid #0c0c0c; border-radius: 6px; }
         ::-webkit-scrollbar-thumb:hover { background: #555555; }
 
         /* Tactile retro DOS physical button simulation */
@@ -60,7 +57,7 @@
             border-color: #555555 #555555 #0a0a0a #0a0a0a;
         }
 
-        .dos-button:active, .dos-button.active {
+        .dos-button:active {
             background-color: #111111;
             color: #ffffff;
             border-top: 2px solid #050505;
@@ -92,8 +89,7 @@
         pre {
             font-family: inherit;
             margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            white-space: pre;
         }
 
         /* Blink animation for terminal cursor simulation */
@@ -107,19 +103,20 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-8 text-xs md:text-sm theme-classic">
+<body class="p-4 md:p-8 text-xs md:text-sm theme-classic min-h-screen flex items-center justify-center box-border">
 
-    <div id="welcome-screen" class="flex flex-col items-center justify-center min-h-[90vh] max-w-3xl mx-auto py-12">
-        <pre class="text-[#555555] text-center text-[10px] md:text-xs leading-tight select-none mb-6">
+    <div id="welcome-screen" class="flex flex-col items-center justify-center w-full max-w-3xl">
+        <div class="w-full overflow-x-auto mb-6 flex justify-center">
+            <pre class="text-[#555555] text-center text-[10px] md:text-xs leading-tight select-none">
 01010011 01010100 01000001 01010010   01010111 01000001 01010010 01010011
 ┌────────────────────────────────────────────────────────────────────────┐
 │                                                                        │
 │   ██████╗  █████╗ ██╗     █████╗  ██████╗████████╗██╗ ██████╗          │
-│  ██╔════╝ ██╔══██╗██║     ██╔══██╗██╔════╝╚══██╔══╝██║██╔════╝          │
-│  ██║  ███╗███████║██║     ███████║██║     ██║   ██║██║               │
-│  ██║   ██║██╔══██║██║     ██╔══██║██║     ██║   ██║██║               │
-│  ╚██████╔╝██║  ██║███████╗██║  ██║╚██████╗   ██║   ██║╚██████╗          │
-│   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝          │
+│  ██╔════╝ ██╔══██╗██║     ██╔══██╗██╔════╝╚══██╔══╝██║██╔════╝         │
+│  ██║  ███╗███████║██║     ███████║██║     ██║   ██║██║                 │
+│  ██║   ██║██╔══██║██║     ██╔══██║██║     ██║   ██║██║                 │
+│  ╚██████╔╝██║  ██║███████╗██║  ██║╚██████╗   ██║   ██║╚██████╗         │
+│   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝         │
 │                                                                        │
 │   █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗                │
 │  ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝                │
@@ -132,10 +129,11 @@
 │ Authorized Used Only - CORELLIA SYSTEMS CORP CORE MAIN_FRAME v4.2  │
 └────────────────────────────────────────────────────────────────────────┘
 01001101 01000001 01010100 01010010   01001001 01011000 01001111 01010011</pre>
+        </div>
 
         <div class="max-w-2xl w-full text-left text-[#aaaaaa] text-xs md:text-sm mb-8 border border-[#444444] bg-[#111111] p-5 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
             <p class="mb-4 text-yellow-500 font-bold tracking-widest text-shadow-sm">>>> Connected..</p>
-            <p class="mb-3">You are accessing the <span class="highlight font-bold">Galactic Archive</span>, A comprehensive mainframe repository documenting the chronology of the Star Wars saga. This archive organizes the events of the galaxy into both historical and release sequences, from the final days of the Republic to the rise of a new generation of Jedi..</p>
+            <p class="mb-3">You are accessing the <span class="highlight font-bold">Galactic Archive</span>, a comprehensive mainframe repository documenting the chronology of the Star Wars saga. This system accesses the strict timeline order of events across the galaxy.</p>
         </div>
         
         <div class="text-center">
@@ -147,157 +145,139 @@
                 class="dos-button text-sm tracking-widest glow-yellow px-8 py-3" 
                 onclick="enterArchive()"
             >
-                [ INNITIATE COMMAND SEQUENCE ]
+                [ INITIATE COMMAND SEQUENCE ]
             </button>
         </div>
     </div>
 
-    <div id="loading-screen" class="hidden flex flex-col h-[85vh] max-w-4xl mx-auto py-12 px-6 border border-[#333333] bg-[#050505] shadow-[inset_0_0_20px_rgba(0,0,0,0.9)]">
+    <div id="loading-screen" class="hidden flex flex-col h-[75vh] w-full max-w-4xl border border-[#333333] bg-[#050505] shadow-[inset_0_0_20px_rgba(0,0,0,0.9)] p-6">
         <div class="mb-6 flex justify-between items-center border-b border-[#222222] pb-2 text-yellow-500">
             <div>CORELLIA CORE BOOT EXECUTIVE v4.2</div>
             <div>SYS_STAT: INIT</div>
         </div>
         
-        <pre id="loading-output" class="text-yellow-400 leading-relaxed text-xs md:text-sm cursor flex-1 overflow-y-auto pr-4"></pre>
+        <pre id="loading-output" class="text-yellow-400 leading-relaxed text-xs md:text-sm cursor flex-1 overflow-y-auto overflow-x-hidden pr-4"></pre>
     </div>
 
-    <div id="main-archive" class="max-w-5xl mx-auto hidden">
-        <div class="mb-6 flex justify-between items-start border-b border-[#333333] pb-4">
+    <div id="main-archive" class="hidden w-full max-w-5xl bg-[#0c0c0c] border border-[#333333] shadow-2xl p-4 md:p-6 rounded">
+        <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-start border-b border-[#333333] pb-4 gap-2">
             <div>
-                <div class="highlight font-bold">GALACTIC ARCHIVE SYSTEM [Version 4.2.2026]</div>
-                <div>(C) Corellia Computer Corp. All rights reserved.</div>
+                <div class="highlight font-bold text-sm md:text-base">GALACTIC ARCHIVE SYSTEM [Version 4.2.2026]</div>
+                <div class="text-[#888888]">CHRONOLOGICAL DATABASE ACCESS</div>
+                <div class="text-xs">(C) Corellia Computer Corp. All rights reserved.</div>
             </div>
-            <div class="text-right text-[#666666] hidden sm:block">
+            <div class="text-left md:text-right text-[#666666] text-xs md:text-sm">
                 SYS_LOC: CORE_ARCHIVE_A<br>
                 TERM_ID: CC-1138
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 bg-[#111111]/40 p-4 border border-[#222222] rounded">
-            <div>
-                <div class="text-[#888888] mb-2 font-bold">SEARCH UTILITY</div>
-                <div class="ascii-box">
-                    <span class="text-[#888888] mr-2 font-bold">QUERY</span>
-                    <input 
-                        type="text" 
-                        id="search" 
-                        placeholder="by Year/Type or File_name" 
-                        autocomplete="off" 
-                        spellcheck="false"
-                    >
-                </div>
-            </div>
-
-            <div>
-                <div class="text-[#888888] mb-2 font-bold">DIRECTORY SORT MACROS</div>
-                <div class="flex gap-4">
-                    <button 
-                        id="btn-release" 
-                        class="dos-button active flex-1" 
-                        onclick="releaseOrder()"
-                    >
-                        RELEASE ORDER
-                    </button>
-                    <button 
-                        id="btn-chrono" 
-                        class="dos-button flex-1" 
-                        onclick="chronologicalOrder()"
-                    >
-                        CHRONOLOGICAL ORDER
-                    </button>
-                </div>
+        <div class="mb-6 bg-[#111111]/40 p-4 border border-[#222222] rounded w-full">
+            <div class="text-[#888888] mb-2 font-bold">SEARCH UTILITY</div>
+            <div class="ascii-box w-full">
+                <span class="text-[#888888] mr-2 font-bold">QUERY</span>
+                <input 
+                    type="text" 
+                    id="search" 
+                    placeholder="by Year, Type, or File_name" 
+                    autocomplete="off" 
+                    spellcheck="false"
+                >
             </div>
         </div>
 
-        <div class="bg-[#050505] border border-[#222222] p-4 min-h-[300px]">
-            <pre id="output" class="text-[#cccccc]"></pre>
+        <div class="bg-[#050505] border border-[#222222] p-4 min-h-[400px] w-full overflow-x-auto">
+            <pre id="output" class="text-[#cccccc] min-w-max"></pre>
         </div>
     </div>
 
     <script>
-        // Full database array with 66 records
+        // Full database array with updated years
         const data = [
-            { title: "Star Wars: A New Hope (Episode IV)", year: "1977", type: "Movie", release: 1, chrono: 17 },
-            { title: "Star Wars: The Empire Strikes Back (Episode V)", year: "1980", type: "Movie", release: 2, chrono: 18 },
-            { title: "Star Wars: Return of the Jedi (Episode VI)", year: "1983", type: "Movie", release: 3, chrono: 19 },
-            { title: "Star Wars: The Phantom Menace (Episode I)", year: "1999", type: "Movie", release: 4, chrono: 2 },
-            { title: "Star Wars: Attack of the Clones (Episode II)", year: "2002", type: "Movie", release: 5, chrono: 3 },
-            { title: "Star Wars: Revenge of the Sith (Episode III)", year: "2005", type: "Movie", release: 6, chrono: 7 },
-            { title: "Star Wars: The Clone Wars", year: "2008", type: "Movie", release: 7, chrono: 4 },
-            { title: "Star Wars: The Clone Wars", year: "2008", type: "Series", release: 8, chrono: 5 },
-            { title: "Star Wars Rebels", year: "2014", type: "Series", release: 9, chrono: 15 },
-            { title: "Star Wars: The Force Awakens (Episode VII)", year: "2015", type: "Movie", release: 10, chrono: 26 },
-            { title: "Rogue One: A Star Wars Story", year: "2016", type: "Movie", release: 11, chrono: 16 },
-            { title: "Star Wars: The Last Jedi (Episode VIII)", year: "2017", type: "Movie", release: 12, chrono: 27 },
-            { title: "Solo: A Star Wars Story", year: "2018", type: "Movie", release: 13, chrono: 12 },
-            { title: "Star Wars Resistance", year: "2018", type: "Series", release: 14, chrono: 25 },
-            { title: "The Mandalorian", year: "2019", type: "Series", release: 15, chrono: 20 },
-            { title: "Star Wars: The Rise of Skywalker (Episode IX)", year: "2019", type: "Movie", release: 16, chrono: 28 },
-            { title: "The Book of Boba Fett", year: "2021", type: "Series", release: 17, chrono: 21 },
-            { title: "Star Wars: The Bad Batch", year: "2021", type: "Series", release: 18, chrono: 10 },
-            { title: "Obi-Wan Kenobi", year: "2022", type: "Series", release: 19, chrono: 13 },
-            { title: "Andor", year: "2022", type: "Series", release: 20, chrono: 14 },
-            { title: "Star Wars: Tales of the Jedi", year: "2022", type: "Series", release: 21, chrono: 6 },
-            { title: "Ahsoka", year: "2023", type: "Series", release: 22, chrono: 22 },
-            { title: "Star Wars: Tales of the Empire", year: "2024", type: "Series", release: 23, chrono: 8 },
-            { title: "The Acolyte", year: "2024", type: "Series", release: 24, chrono: 1 },
-            { title: "Skeleton Crew", year: "2024", type: "Series", release: 25, chrono: 23 },
-            { title: "Star Wars: Tales of the Underworld", year: "2025", type: "Series", release: 26, chrono: 9 },
-            { title: "Star Wars: Maul – Shadow Lord", year: "2026", type: "Movie", release: 27, chrono: 11 },
-            { title: "Star Wars: The Mandalorian and Grogu", year: "2026", type: "Movie", release: 28, chrono: 24 },
-            
-            // --- DOCUMENTARIES ---
-            { title: "Star Wars: Rise of the Resistance | Disneyland Resort", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Star Wars: Galaxy's Edge | Disneyland Resort", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Disney Gallery: The Mandalorian", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Master & Apprentice: A Special Look at Ahsoka", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Light & Magic", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Disney Gallery: The Book of Boba Fett", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Under the Helmet: The Legacy of Boba Fett", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Obi-Wan Kenobi: A Jedi's Return", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            { title: "Empire of Dreams: The Story of the Star Wars Trilogy", year: "N/A", type: "Doc", release: 999, chrono: 999 },
-            
-            // --- ANIMATED SERIES ---
-            { title: "LEGO Star Wars: Rebuild the Galaxy - Pieces of the Past", year: "N/A", type: "Anim", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: Rebuild the Galaxy", year: "N/A", type: "Anim", release: 999, chrono: 999 },
-            { title: "Star Wars: Young Jedi Adventures", year: "N/A", type: "Anim", release: 999, chrono: 999 },
-            { title: "Star Wars: Visions", year: "N/A", type: "Anim", release: 999, chrono: 999 },
-            
-            // --- SPECIALS ---
-            { title: "LEGO Star Wars Summer Vacation", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars Terrifying Tales", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars Holiday Special", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The New Yoda Chronicles — Clash of the Skywalkers", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The New Yoda Chronicles — Duel of the Skywalkers", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The New Yoda Chronicles — Escape from the Jedi Temple", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The New Yoda Chronicles — Race for the Holocrons", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The New Yoda Chronicles — Raid on Coruscant", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            { title: "Star Wars: Galaxy's Edge — Adventure Awaits", year: "N/A", type: "Spec", release: 999, chrono: 999 },
-            
-            // --- ANIMATED MINI-SERIES ---
-            { title: "LEGO Star Wars: All Stars", year: "N/A", type: "Mini", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: Droid Tales", year: "N/A", type: "Mini", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The Resistance Rises", year: "N/A", type: "Mini", release: 999, chrono: 999 },
-            
-            // --- ANIMATED SHORTS ---
-            { title: "Star Wars: Young Jedi Adventures Shorts", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: The Freemaker Adventures Shorts", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "LEGO Star Wars: All-Stars Shorts", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "Star Wars: Blips", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "Star Wars: Forces of Destiny", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "Star Wars Rebels Shorts", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            { title: "Zen: Grogu and Dust Bunnies", year: "N/A", type: "Short", release: 999, chrono: 999 },
-            
-            // --- VINTAGE COLLECTION ---
-            { title: "Caravan of Courage: An Ewok Adventure", year: "N/A", type: "Vint", release: 999, chrono: 999 },
-            { title: "Ewoks: The Battle for Endor", year: "N/A", type: "Vint", release: 999, chrono: 999 },
-            { title: "The Story of the Faithful Wookiee", year: "N/A", type: "Vint", release: 999, chrono: 999 },
-            { title: "Ewoks", year: "N/A", type: "Vint", release: 999, chrono: 999 },
-            { title: "Droids", year: "N/A", type: "Vint", release: 999, chrono: 999 },
-            { title: "Clone Wars 2D Micro-Series — Volume 1 & 2", year: "N/A", type: "Vint", release: 999, chrono: 999 }
-        ];
+    { title: "Star Wars: A New Hope (Episode IV)", year: "1977", type: "Movie", chrono: 17 },
+    { title: "Star Wars: The Empire Strikes Back (Episode V)", year: "1980", type: "Movie", chrono: 18 },
+    { title: "Star Wars: Return of the Jedi (Episode VI)", year: "1983", type: "Movie", chrono: 19 },
+    { title: "Star Wars: The Phantom Menace (Episode I)", year: "1999", type: "Movie", chrono: 2 },
+    { title: "Star Wars: Attack of the Clones (Episode II)", year: "2002", type: "Movie", chrono: 3 },
+    { title: "Star Wars: Revenge of the Sith (Episode III)", year: "2005", type: "Movie", chrono: 7 },
+    { title: "Star Wars: The Clone Wars", year: "2008", type: "Movie", chrono: 4 },
+    { title: "Star Wars: The Clone Wars", year: "2008", type: "Series", chrono: 5 },
+    { title: "Star Wars Rebels", year: "2014", type: "Series", chrono: 15 },
+    { title: "Star Wars: The Force Awakens (Episode VII)", year: "2015", type: "Movie", chrono: 26 },
+    { title: "Rogue One: A Star Wars Story", year: "2016", type: "Movie", chrono: 16 },
+    { title: "Star Wars: The Last Jedi (Episode VIII)", year: "2017", type: "Movie", chrono: 27 },
+    { title: "Solo: A Star Wars Story", year: "2018", type: "Movie", chrono: 12 },
+    { title: "Star Wars Resistance", year: "2018", type: "Series", chrono: 25 },
+    { title: "The Mandalorian", year: "2019", type: "Series", chrono: 20 },
+    { title: "Star Wars: The Rise of Skywalker (Episode IX)", year: "2019", type: "Movie", chrono: 28 },
+    { title: "The Book of Boba Fett", year: "2021", type: "Series", chrono: 21 },
+    { title: "Star Wars: The Bad Batch", year: "2021", type: "Series", chrono: 10 },
+    { title: "Obi-Wan Kenobi", year: "2022", type: "Series", chrono: 13 },
+    { title: "Andor", year: "2022", type: "Series", chrono: 14 },
+    { title: "Star Wars: Tales of the Jedi", year: "2022", type: "Series", chrono: 6 },
+    { title: "Ahsoka", year: "2023", type: "Series", chrono: 22 },
+    { title: "Star Wars: Tales of the Empire", year: "2024", type: "Series", chrono: 8 },
+    { title: "The Acolyte", year: "2024", type: "Series", chrono: 1 },
+    { title: "Skeleton Crew", year: "2024", type: "Series", chrono: 23 },
+    { title: "Star Wars: Tales of the Underworld", year: "2025", type: "Series", chrono: 9 },
+    { title: "Andor (Season 2)", year: "2025", type: "Series", chrono: 14 },
+    { title: "Star Wars: The Mandalorian and Grogu", year: "2026", type: "Movie", chrono: 24 },
+    { title: "Star Wars: Maul – Shadow Lord", year: "2026", type: "Series", chrono: 11 },
+ 
+    // --- DOCUMENTARIES ---
+    { title: "Empire of Dreams: The Story of the Star Wars Trilogy", year: "2004", type: "Doc", chrono: 999 },
+    { title: "Star Wars: Rise of the Resistance | Disneyland Resort", year: "2019", type: "Doc", chrono: 999 },
+    { title: "Star Wars: Galaxy's Edge | Disneyland Resort", year: "2019", type: "Doc", chrono: 999 },
+    { title: "Disney Gallery: The Mandalorian", year: "2020", type: "Doc", chrono: 999 },
+    { title: "Under the Helmet: The Legacy of Boba Fett", year: "2021", type: "Doc", chrono: 999 },
+    { title: "Light & Magic", year: "2022", type: "Doc", chrono: 999 },
+    { title: "Disney Gallery: The Book of Boba Fett", year: "2022", type: "Doc", chrono: 999 },
+    { title: "Obi-Wan Kenobi: A Jedi's Return", year: "2022", type: "Doc", chrono: 999 },
+    { title: "Master & Apprentice: A Special Look at Ahsoka", year: "2023", type: "Doc", chrono: 999 },
+ 
+    // --- ANIMATED SERIES ---
+    { title: "LEGO Star Wars: The Freemaker Adventures", year: "2016", type: "Anim", chrono: 999 },
+    { title: "Star Wars: Visions", year: "2021", type: "Anim", chrono: 999 },
+    { title: "Star Wars: Young Jedi Adventures", year: "2023", type: "Anim", chrono: 999 },
+    { title: "LEGO Star Wars: Rebuild the Galaxy - Pieces of the Past", year: "2024", type: "Anim", chrono: 999 },
+    { title: "LEGO Star Wars: Rebuild the Galaxy", year: "2024", type: "Anim", chrono: 999 },
+ 
+    // --- SPECIALS ---
+    { title: "The Star Wars Holiday Special", year: "1978", type: "Spec", chrono: 999 },
+    { title: "Phineas and Ferb: Star Wars", year: "2014", type: "Spec", chrono: 999 },
+    { title: "LEGO Star Wars: The New Yoda Chronicles", year: "2014", type: "Spec", chrono: 999 },
+    { title: "Star Wars: Galaxy's Edge — Adventure Awaits", year: "2019", type: "Spec", chrono: 999 },
+    { title: "LEGO Star Wars Holiday Special", year: "2020", type: "Spec", chrono: 999 },
+    { title: "LEGO Star Wars Terrifying Tales", year: "2021", type: "Spec", chrono: 999 },
+    { title: "LEGO Star Wars Summer Vacation", year: "2022", type: "Spec", chrono: 999 },
+ 
+    // --- ANIMATED MINI-SERIES ---
+    { title: "LEGO Star Wars: Droid Tales", year: "2015", type: "Mini", chrono: 999 },
+    { title: "LEGO Star Wars: The Resistance Rises", year: "2016", type: "Mini", chrono: 999 },
+    { title: "LEGO Star Wars: All Stars", year: "2018", type: "Mini", chrono: 999 },
+ 
+    // --- ANIMATED SHORTS ---
+    { title: "Star Wars Rebels Shorts", year: "2014", type: "Short", chrono: 999 },
+    { title: "LEGO Star Wars: The Freemaker Adventures Shorts", year: "2016", type: "Short", chrono: 999 },
+    { title: "LEGO Star Wars: All-Stars Shorts", year: "2018", type: "Short", chrono: 999 },
+    { title: "Star Wars: Blips", year: "2017", type: "Short", chrono: 999 },
+    { title: "Star Wars: Forces of Destiny", year: "2017", type: "Short", chrono: 999 },
+    { title: "Star Wars: Galaxy of Sounds", year: "2021", type: "Short", chrono: 999 },
+    { title: "Star Wars: Biomes", year: "2021", type: "Short", chrono: 999 },
+    { title: "Star Wars: Vehicle Flythroughs", year: "2021", type: "Short", chrono: 999 },
+    { title: "Maggie Simpson in 'The Force Awakens From Its Nap'", year: "2021", type: "Short", chrono: 999 },
+    { title: "Zen: Grogu and Dust Bunnies", year: "2022", type: "Short", chrono: 999 },
+    { title: "Star Wars: Young Jedi Adventures Shorts", year: "2023", type: "Short", chrono: 999 },
+ 
+    // --- VINTAGE COLLECTION ---
+    { title: "The Story of the Faithful Wookiee", year: "1978", type: "Vint", chrono: 999 },
+    { title: "Clone Wars 2D Micro-Series", year: "2003", type: "Vint", chrono: 999 },
+    { title: "Caravan of Courage: An Ewok Adventure", year: "1984", type: "Vint", chrono: 999 },
+    { title: "Ewoks: The Battle for Endor", year: "1985", type: "Vint", chrono: 999 },
+    { title: "Star Wars: Ewoks", year: "1985", type: "Vint", chrono: 999 },
+    { title: "Star Wars: Droids", year: "1985", type: "Vint", chrono: 999 },
+];
 
-        let currentSort = 'release';
         let systemActive = false;
 
         // Transitions smoothly to the sequential loading terminal
@@ -308,47 +288,47 @@
             runCommandPromptLoader();
         }
 
-        // Sequence loader calibrated to run for exactly 8 seconds
+        // Sequence loader calibrated to run for roughly 8.2 seconds
         function runCommandPromptLoader() {
             const loadingOutput = document.getElementById('loading-output');
             
-            // 22 logs total. Printed every ~360ms = ~8000ms (8 Seconds)
+            // 23 logs total. Printed every ~360ms = ~8280ms (8.28 Seconds)
             const logs = [
-                "C:\\> CHKDSK HOLONET_LINK /F\nVerifying secure alignment configurations...",
-                "C:\\> CONNECT CORE_ARCHIVE_A --PORT=1138\nEstablishing tunnel via terminal identity CC-1138... SUCCESS.",
-                "C:\\> MOUNT HOLOCRON_DRIVE_1 ... OK\nMounting historical volume...",
-                "C:\\> MOUNT HOLOCRON_DRIVE_2 ... OK\nMounting secondary volume...",
-                "C:\\> SYNCING JEDI_ARCHIVES_CORS ... IN PROGRESS\nFetching Coruscant branch records...",
-                "C:\\> OVERRIDING SITH_ENCRYPTION_PROTOCOLS ... BYPASSED\nRule of Two sub-routines deactivated.",
-                "C:\\> ESTABLISHING SECURE CONNECTION TO SCARIF_DATAVAULT ... DONE\nCitadel tower handshake complete.",
-                "C:\\> DECRYPT --ALGO=AES-256 --TARGET=IMPERIAL_HISTORY_DB\nBypassing security sectors... [████████████████████] 100%",
-                "C:\\> EXECUTE DECRYPTED_HEADER.TXT\n--------------------------------------------------------------------------------\n> EPISODE IV.II\n> THE GALACTIC ARCHIVE",
-                "> It is a period of data retrieval. Rebel spaceships, striking from a\n> hidden base, have won their first victory against the disorganized\n> servers of the evil Galactic Empire.",
-                "> During the battle, Rebel slicers managed to steal secret plans to the\n> Empire's ultimate weapon, the STAR WARS CHRONOLOGY, an armored\n> database with enough power to organize an entire cinematic universe.",
-                "> Pursued by the Empire's sinister agents, Princess Leia races home\n> aboard her starship, custodian of the stolen database that can save\n> her people and restore order to the timeline...\n--------------------------------------------------------------------------------",
-                "C:\\> COMPILING MIDICHLORIAN_COUNT_INDEX ... [OK]\nFormatting force-sensitivity metadata...",
-                "C:\\> LOADING ASTROMECH_TRANSLATION_MODULES ... R2-SERIES LOADED\nBinary translation active.",
-                "C:\\> PINGING MANDALORE_SECTOR ... TIMEOUT (NO SIGNAL)\nSector currently isolated. Skipping...",
-                "C:\\> ROUTING THROUGH TATOOINE_RELAY ... CONNECTION ESTABLISHED\nOuter rim network stabilized.",
-                "C:\\> DOWNLOADING HYPERSPACE_COORDINATES ... 100%\nNavicomputer updated.",
-                "C:\\> CHECKING REBEL_ALLIANCE_CLEARANCE_CODES ... AUTHORIZED\nClearance level: FULCRUM.",
-                "C:\\> INITIALIZING KYBER_CRYSTAL_RESONANCE_MATRIX ... STABLE\nPower output nominal.",
-                "C:\\> INDEX --TYPE=MOVIES --TYPE=SERIES --TYPE=DOCS\nParsing 66 historical galactic nodes...",
-                "C:\\> LOAD_MODULE --NAME=TUI_SORT_MACROS\nMapping release vs chronological sequence registers... DONE.",
-                "C:\\> READY SYSTEM\nCorellia mainframe interface operational. Initializing terminal redirect..."
+                "                    000000111111111111111111111000000",
+                "                000111111111111111111111111111111000",
+                "             0011111111111111111111111111111111111100",
+                "           00111111111111111111111111111111111111111100",
+                "         001111111111111111111111111111111111111111111100",
+                "        01111111111111111111111111111111111111111111111110",
+                "       011111111111111111111000000111111111111111111111110",
+                "      11111111111111111110000000000011111111111111111111111",
+                "      11111111111111111100000000000000111111111111111111111",
+                "      11111111111111111100000000000000111111111111111111111",
+                "      11111111111111111110000000000011111111111111111111111",
+                "       011111111111111111111000000111111111111111111111110",
+                "        01111111111111111111111111111111111111111111111110",
+                "         001111111111111111111111111111111111111111111100",
+                "           00111111111111111111111111111111111111111100",
+                "             0011111111111111111111111111111111111100",
+                "                000111111111111111111111111111111000",
+                "                    000000111111111111111111111000000",
+                " ",
+                "01010111 01000101 01001100 01000011 01001111 01001101 01000101",
+                "> W E L C O M E",
+                "> ARCHIVE DECRYPTION COMPLETE...",
+                "> TRANSFERRING TO MAIN TERMINAL..."
             ];
 
             let index = 0;
             
             function printNextLine() {
                 if (index < logs.length) {
-                    loadingOutput.textContent += logs[index] + "\n\n";
+                    loadingOutput.textContent += logs[index] + "\n";
                     
-                    // Auto scroll to bottom to keep the terminal feeling alive
+                    // Auto scroll to bottom
                     loadingOutput.scrollTop = loadingOutput.scrollHeight;
                     
                     index++;
-                    // 360ms per log * 22 logs ≈ 8 seconds
                     setTimeout(printNextLine, 360); 
                 } else {
                     initializeMainSystem();
@@ -363,20 +343,20 @@
             document.getElementById('loading-screen').classList.add('hidden');
             const mainView = document.getElementById('main-archive');
             mainView.classList.remove('hidden');
+            mainView.classList.add('flex', 'flex-col'); // Reinstate flex layout upon unhiding
             
             systemActive = true;
-            releaseOrder();
+            runSearchFilter();
             document.getElementById("search").focus();
         }
 
         function display(items) {
             const output = document.getElementById("output");
-            const sortedByStr = currentSort === 'release' ? 'RELEASE_SEQUENCE' : 'CHRONOLOGICAL_SEQUENCE';
             
-            let header = ` ┌────────────────────────────────────────────────────────────────────────┐\n`;
-            header += ` │ GALACTIC ARCHIVE SYSTEMS v4.2                                          │\n`;
-            header += ` │ CLASSIFICATION SORT: [${sortedByStr.padEnd(24, ' ')}]                    │\n`;
-            header += ` └────────────────────────────────────────────────────────────────────────┘\n\n`;
+            let header = `┌────────────────────────────────────────────────────────────────────────┐\n`;
+            header += `│ GALACTIC ARCHIVE SYSTEMS v4.2                                          │\n`;
+            header += `│ CLASSIFICATION SORT: [CHRONOLOGICAL_SEQUENCE  ]                        │\n`;
+            header += `└────────────────────────────────────────────────────────────────────────┘\n\n`;
             header += ` YEAR  TYPE   FILE_NAME\n`;
             header += ` ────  ────── ───────────────────────────────────────────────────────────\n`;
             
@@ -396,31 +376,15 @@
             output.textContent = header + rows + footer;
         }
 
-        function updateButtonVisuals(activeId) {
-            document.querySelectorAll('.dos-button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(activeId).classList.add('active');
-        }
-
-        function releaseOrder() {
-            currentSort = 'release';
-            updateButtonVisuals('btn-release');
-            runSearchFilter();
-        }
-
-        function chronologicalOrder() {
-            currentSort = 'chrono';
-            updateButtonVisuals('btn-chrono');
-            runSearchFilter();
-        }
-
         function runSearchFilter() {
             if (!systemActive) return;
 
             const value = document.getElementById("search").value.toLowerCase().trim();
             let baseList = [...data];
             
+            // Hardcoded strictly to Chronological Order
             baseList.sort((a, b) => {
-                const primaryDiff = currentSort === 'release' ? a.release - b.release : a.chrono - b.chrono;
+                const primaryDiff = a.chrono - b.chrono;
                 if (primaryDiff !== 0) return primaryDiff;
                 return a.title.localeCompare(b.title);
             });
