@@ -1,153 +1,147 @@
-# Galactic Archive
+Galactic Archive System
 
-A retro-inspired command-line archive for exploring the Star Wars universe through an immersive terminal interface. Browse movies, series, documentaries, animated content, specials, and vintage releases in either release order or chronological timeline order.
+A retro-inspired terminal-style Star Wars archive built with HTML, CSS, and JavaScript. Browse the complete Star Wars timeline in either chronological order or release order through an immersive command prompt interface.
 
-Designed to feel like a classic DOS-era mainframe, Galactic Archive combines ASCII aesthetics, CRT-inspired visuals, command-prompt loading sequences, and searchable archive records into a single standalone web application.
+Features
+Retro Terminal Interface
+Classic DOS/Command Prompt aesthetic
+CRT-inspired glow effects
+Animated boot sequence
+Custom terminal styling and keyboard shortcuts
+Star Wars Timeline Database
+Movies
+TV Series
+Animated Series
+Documentaries
+Specials
+Vintage Collection
+Mini-Series
+Shorts
+Advanced Search
 
-## Features
+Search using free text or advanced operators:
 
-* Retro DOS / Command Prompt inspired interface
-* Animated boot-up sequence with terminal logs
-* ASCII art welcome screen
-* Release Order and Chronological Order viewing modes
-* Instant search filtering
-* Responsive design for desktop and mobile
-* CRT-style glow effects and terminal aesthetics
-* Complete Star Wars archive database
-* Zero dependencies beyond Tailwind CDN
-* Single-file deployment
+mandalorian
 
-## Archive Categories
+type:movie
 
-The archive includes:
+type:series year:2022
 
-* Movies
-* Live-Action Series
-* Animated Series
-* Documentaries
-* Specials
-* Mini-Series
-* Shorts
-* Vintage Collection
+chrono:1-10
 
-## Technologies Used
-
-* HTML5
-* CSS3
-* JavaScript (Vanilla)
-* Tailwind CSS (CDN)
-
-## How It Works
-
-### Welcome Screen
-
-Users are greeted with a retro ASCII splash screen and archive introduction.
-
-### System Boot Sequence
-
-Selecting **Initiate Command Sequence** launches an 8-second simulated terminal startup sequence featuring:
-
-* Holonet connections
-* Archive mounting
-* Imperial database decryption
-* Jedi archive synchronization
-* Core system initialization
-
-### Archive Interface
-
-Once initialized, users can:
-
-* Search archive entries by title
-* Filter by year
-* Filter by content type
-* Sort by Release Order
-* Sort by Chronological Order
-
-Results are displayed in a terminal-style directory listing format.
-
-## Project Structure
-
-```text
-index.html
+type:doc
+Sorting Modes
+Chronological Order – View content according to Star Wars timeline events.
+Release Order – View content by original release date.
+Watchlist System
+Save favorite entries
+Persistent storage using LocalStorage
+Quick visual indicators for saved content
+Keyboard Shortcuts
+Key	Action
+/	Focus search
+Ctrl + F	Focus search
+?	Show help
+Esc	Clear search
+W	Add hovered item to watchlist
+Technologies Used
+HTML5
+CSS3
+JavaScript (Vanilla)
+Tailwind CSS
+LocalStorage API
+Project Structure
+project/
 │
-├── HTML Layout
-├── Custom DOS Styling
-├── Star Wars Archive Database
-├── Boot Loader System
-├── Search & Filter Engine
-└── Sorting Functions
-```
+├── index.html
+└── README.md
 
-## Installation
+All functionality is contained in a single HTML file including:
 
-Clone the repository:
+UI rendering
+Search engine
+Timeline database
+Watchlist management
+Keyboard navigation
+Search Operators
+Filter by Type
+type:movie
+type:series
+type:doc
+type:anim
+type:spec
+type:short
+Filter by Year
+year:2024
+year:2019
+Filter by Timeline Position
+chrono:1
+chrono:1-5
+chrono:10-20
+Combined Filters
+type:series year:2022
 
-```bash
-git clone https://github.com/yourusername/galactic-archive.git
-```
+type:movie chrono:15-25
+Watchlist
 
-Navigate to the project:
+Hover over any archive entry and press:
 
-```bash
-cd galactic-archive
-```
+W
 
-Open the file in your browser:
+The selected item will be saved to your personal watchlist.
 
-```bash
+Watchlist data is stored locally in your browser:
+
+localStorage["galactic_watchlist"]
+Installation
+Option 1: Open Directly
+
+Download the project and open:
+
 index.html
-```
 
-No build tools or installation steps are required.
+in any modern browser.
 
-## Customization
+Option 2: Local Server
+git clone https://github.com/yourusername/galactic-archive.git
 
-The archive database is stored inside the JavaScript `data` array.
+cd galactic-archive
 
-Example:
+Then run:
 
-```javascript
-{
-  title: "Star Wars: A New Hope (Episode IV)",
-  year: "1977",
-  type: "Movie",
-  release: 1,
-  chrono: 17
-}
-```
+python -m http.server
 
-You can:
+Visit:
 
-* Add new entries
-* Update chronological positions
-* Create additional categories
-* Replace the database entirely for another franchise
-
-## Future Enhancements
-
-* Audio effects and startup sounds
-* Individual record detail pages
-* Timeline visualization
-* Expanded filtering options
-* Theme selection
-* Keyboard command support
-* Local storage preferences
-* API-powered content updates
-
-## Screenshots
-
-Add screenshots here after deployment.
-
-```text
-/assets/screenshot-welcome.png
-/assets/screenshot-loader.png
-/assets/screenshot-archive.png
-```
-
-## Disclaimer
+http://localhost:8000
+Screenshots
+Boot Sequence
+[████████████████████] 100%
+ACCESS GRANTED
+Archive Database
+YEAR  TYPE   CHRONO FILE_NAME
+──────────────────────────────────────────────
+1977  MOVIE  17     STAR WARS: A NEW HOPE
+1980  MOVIE  18     THE EMPIRE STRIKES BACK
+1983  MOVIE  19     RETURN OF THE JEDI
+Future Improvements
+Export watchlists
+Dark/Green terminal themes
+Expanded Star Wars metadata
+Episode-level filtering
+Search suggestions
+Mobile TUI enhancements
+Cloud synchronization
+Disclaimer
 
 Star Wars and all related properties are trademarks of Lucasfilm Ltd. and The Walt Disney Company.
 
-This project is a fan-made archive created for educational and entertainment purposes only.
+This project is a fan-made archive and is intended for educational and entertainment purposes only.
 
+License
 
+MIT License
+
+Feel free to use, modify, and distribute this project. 🚀
+
+May the Force be with you. ⭐
