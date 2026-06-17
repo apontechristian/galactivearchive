@@ -101,34 +101,21 @@
             0%, 49% { opacity: 1; }
             50%, 100% { opacity: 0; }
         }
+        
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body class="p-4 md:p-8 text-xs md:text-sm theme-classic min-h-screen flex items-center justify-center box-border">
 
     <div id="welcome-screen" class="flex flex-col items-center justify-center w-full max-w-3xl">
-        <div class="w-full overflow-x-auto mb-6 flex justify-center">
-            <pre class="text-[#555555] text-center text-[10px] md:text-xs leading-tight select-none">
-01010011 01010100 01000001 01010010   01010111 01000001 01010010 01010011
-┌────────────────────────────────────────────────────────────────────────┐
-│                                                                        │
-│   ██████╗  █████╗ ██╗     █████╗  ██████╗████████╗██╗ ██████╗          │
-│  ██╔════╝ ██╔══██╗██║     ██╔══██╗██╔════╝╚══██╔══╝██║██╔════╝         │
-│  ██║  ███╗███████║██║     ███████║██║     ██║   ██║██║                 │
-│  ██║   ██║██╔══██║██║     ██╔══██║██║     ██║   ██║██║                 │
-│  ╚██████╔╝██║  ██║███████╗██║  ██║╚██████╗   ██║   ██║╚██████╗         │
-│   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝         │
-│                                                                        │
-│   █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗                │
-│  ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝                │
-│  ███████║██████╔╝██║     ███████║██║██║   ██║█████╗                  │
-│  ██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝                  │
-│  ██║  ██║██║  ██║╚██████╗██║  ██║██║ ╚████╔╝ ███████╗                │
-│  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝                │
-│                                                                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ Authorized Used Only - CORELLIA SYSTEMS CORP CORE MAIN_FRAME v4.2  │
-└────────────────────────────────────────────────────────────────────────┘
-01001101 01000001 01010100 01010010   01001001 01011000 01001111 01010011</pre>
+        <div class="w-full overflow-x-auto mb-6 flex flex-col items-center justify-center font-mono min-h-[160px]">
+            <div id="progress-text" class="text-[#aaaaaa] mb-3 text-xs md:text-sm uppercase tracking-widest animate-pulse">System Standby</div>
+            <div class="text-yellow-500 text-sm md:text-base tracking-widest font-bold">
+                [<span id="progress-bar">--------------------</span>] <span id="progress-percent" class="inline-block w-8 text-right">0</span>%
+            </div>
         </div>
 
         <div class="max-w-2xl w-full text-left text-[#aaaaaa] text-xs md:text-sm mb-8 border border-[#444444] bg-[#111111] p-5 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
@@ -150,16 +137,7 @@
         </div>
     </div>
 
-    <div id="loading-screen" class="hidden flex flex-col h-[75vh] w-full max-w-4xl border border-[#333333] bg-[#050505] shadow-[inset_0_0_20px_rgba(0,0,0,0.9)] p-6">
-        <div class="mb-6 flex justify-between items-center border-b border-[#222222] pb-2 text-yellow-500">
-            <div>CORELLIA CORE BOOT EXECUTIVE v4.2</div>
-            <div>SYS_STAT: INIT</div>
-        </div>
-        
-        <pre id="loading-output" class="text-yellow-400 leading-relaxed text-xs md:text-sm cursor flex-1 overflow-y-auto overflow-x-hidden pr-4"></pre>
-    </div>
-
-    <div id="main-archive" class="hidden w-full max-w-5xl bg-[#0c0c0c] border border-[#333333] shadow-2xl p-4 md:p-6 rounded">
+    <div id="main-archive" class="hidden mx-auto w-full max-w-5xl bg-[#0c0c0c] border border-[#333333] shadow-2xl p-4 md:p-6 rounded">
         <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-start border-b border-[#333333] pb-4 gap-2">
             <div>
                 <div class="highlight font-bold text-sm md:text-base">GALACTIC ARCHIVE SYSTEM [Version 4.2.2026]</div>
@@ -170,6 +148,23 @@
                 SYS_LOC: CORE_ARCHIVE_A<br>
                 TERM_ID: CC-1138
             </div>
+        </div>
+
+        <div class="mb-6 flex flex-wrap gap-4">
+            <button 
+                id="btn-sort-chrono" 
+                class="dos-button text-xs tracking-widest glow-yellow" 
+                onclick="setSort('chrono')"
+            >
+                [ CHRONOLOGICAL ORDER ]
+            </button>
+            <button 
+                id="btn-sort-release" 
+                class="dos-button text-xs tracking-widest text-[#666666]" 
+                onclick="setSort('release')"
+            >
+                [ RELEASE ORDER ]
+            </button>
         </div>
 
         <div class="mb-6 bg-[#111111]/40 p-4 border border-[#222222] rounded w-full">
@@ -279,68 +274,115 @@
 ];
 
         let systemActive = false;
+        let currentSort = 'chrono';
 
-        // Transitions smoothly to the sequential loading terminal
-        function enterArchive() {
-            document.getElementById('welcome-screen').classList.add('hidden');
-            document.getElementById('loading-screen').classList.remove('hidden');
-            
-            runCommandPromptLoader();
-        }
+        // ─────────────────────────────────────────────────────────────
+        // 1. WATCHLIST MANAGEMENT (localStorage)
+        // ─────────────────────────────────────────────────────────────
+        class WatchlistManager {
+            constructor() {
+                this.watchlist = this.loadWatchlist();
+            }
 
-        // Sequence loader calibrated to run for roughly 8.2 seconds
-        function runCommandPromptLoader() {
-            const loadingOutput = document.getElementById('loading-output');
-            
-            // 23 logs total. Printed every ~360ms = ~8280ms (8.28 Seconds)
-            const logs = [
-                "                    000000111111111111111111111000000",
-                "                000111111111111111111111111111111000",
-                "             0011111111111111111111111111111111111100",
-                "           00111111111111111111111111111111111111111100",
-                "         001111111111111111111111111111111111111111111100",
-                "        01111111111111111111111111111111111111111111111110",
-                "       011111111111111111111000000111111111111111111111110",
-                "      11111111111111111110000000000011111111111111111111111",
-                "      11111111111111111100000000000000111111111111111111111",
-                "      11111111111111111100000000000000111111111111111111111",
-                "      11111111111111111110000000000011111111111111111111111",
-                "       011111111111111111111000000111111111111111111111110",
-                "        01111111111111111111111111111111111111111111111110",
-                "         001111111111111111111111111111111111111111111100",
-                "           00111111111111111111111111111111111111111100",
-                "             0011111111111111111111111111111111111100",
-                "                000111111111111111111111111111111000",
-                "                    000000111111111111111111111000000",
-                " ",
-                "01010111 01000101 01001100 01000011 01001111 01001101 01000101",
-                "> W E L C O M E",
-                "> ARCHIVE DECRYPTION COMPLETE...",
-                "> TRANSFERRING TO MAIN TERMINAL..."
-            ];
+            loadWatchlist() {
+                const saved = localStorage.getItem('galactic_watchlist');
+                return saved ? JSON.parse(saved) : [];
+            }
 
-            let index = 0;
-            
-            function printNextLine() {
-                if (index < logs.length) {
-                    loadingOutput.textContent += logs[index] + "\n";
-                    
-                    // Auto scroll to bottom
-                    loadingOutput.scrollTop = loadingOutput.scrollHeight;
-                    
-                    index++;
-                    setTimeout(printNextLine, 360); 
+            saveWatchlist() {
+                localStorage.setItem('galactic_watchlist', JSON.stringify(this.watchlist));
+            }
+
+            add(item) {
+                const exists = this.watchlist.some(w => w.title === item.title);
+                if (!exists) {
+                    this.watchlist.push({
+                        ...item,
+                        addedAt: new Date().toISOString(),
+                    });
+                    this.saveWatchlist();
+                    this.showToast(`✓ Added "${item.title}" to watchlist`);
+                    return true;
                 } else {
-                    initializeMainSystem();
+                    this.showToast(`Already in your watchlist`, 'warn');
+                    return false;
                 }
             }
 
-            printNextLine();
+            remove(title) {
+                this.watchlist = this.watchlist.filter(w => w.title !== title);
+                this.saveWatchlist();
+                this.showToast(`Removed from watchlist`);
+            }
+
+            has(title) {
+                return this.watchlist.some(w => w.title === title);
+            }
+
+            showToast(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#10b981' : '#f59e0b'};
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease-out;
+                    font-family: Consolas, monospace;
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2500);
+            }
+        }
+
+        const watchlistMgr = new WatchlistManager();
+
+        // Transitions smoothly to the sequential loading terminal
+        function enterArchive() {
+            const btn = document.getElementById('btn-enter');
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.textContent = "[ PROCESSING... ]";
+            
+            const bar = document.getElementById('progress-bar');
+            const pct = document.getElementById('progress-percent');
+            const txt = document.getElementById('progress-text');
+            
+            txt.textContent = "DECRYPTING ARCHIVES...";
+            txt.classList.remove('animate-pulse');
+            
+            let progress = 0;
+            const totalBlocks = 20;
+            
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5; 
+                if (progress >= 100) progress = 100;
+                
+                const filled = Math.floor((progress / 100) * totalBlocks);
+                const empty = totalBlocks - filled;
+                
+                bar.textContent = '█'.repeat(filled) + '-'.repeat(empty);
+                pct.textContent = progress;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    txt.textContent = "ACCESS GRANTED";
+                    txt.classList.add('text-green-500');
+                    setTimeout(() => {
+                        initializeMainSystem();
+                    }, 400);
+                }
+            }, 120);
         }
 
         // Final reveal step to bring up interactive main archive
         function initializeMainSystem() {
-            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.add('hidden');
             const mainView = document.getElementById('main-archive');
             mainView.classList.remove('hidden');
             mainView.classList.add('flex', 'flex-col'); // Reinstate flex layout upon unhiding
@@ -350,53 +392,244 @@
             document.getElementById("search").focus();
         }
 
+        function setSort(mode) {
+            currentSort = mode;
+            
+            const btnChrono = document.getElementById('btn-sort-chrono');
+            const btnRelease = document.getElementById('btn-sort-release');
+            
+            // Handle Visual Active/Inactive states
+            if (mode === 'chrono') {
+                btnChrono.classList.add('glow-yellow');
+                btnChrono.classList.remove('text-[#666666]');
+                
+                btnRelease.classList.remove('glow-yellow');
+                btnRelease.classList.add('text-[#666666]');
+            } else {
+                btnRelease.classList.add('glow-yellow');
+                btnRelease.classList.remove('text-[#666666]');
+                
+                btnChrono.classList.remove('glow-yellow');
+                btnChrono.classList.add('text-[#666666]');
+            }
+            
+            // Re-run the filter to update view
+            runSearchFilter();
+            document.getElementById("search").focus();
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // 2. ADVANCED SEARCH PARSING (type:, year:, chrono:)
+        // ─────────────────────────────────────────────────────────────
+        function parseAdvancedQuery(value) {
+            const operators = {};
+            let freeText = value;
+
+            // Extract operators: type:movie year:1999 chrono:1-7
+            const regex = /(\w+):(\S+)/g;
+            freeText = freeText.replace(regex, (match, key, val) => {
+                operators[key] = val;
+                return '';
+            });
+
+            // Trim remaining free text
+            freeText = freeText.trim().toLowerCase();
+
+            // Filter data by operators
+            return data.filter(item => {
+                // Type filter
+                if (operators.type) {
+                    const searchType = operators.type.toUpperCase();
+                    if (item.type.toUpperCase() !== searchType) return false;
+                }
+
+                // Year filter
+                if (operators.year) {
+                    if (!item.year.includes(operators.year)) return false;
+                }
+
+                // Chronological range filter (chrono:1-5 or chrono:5)
+                if (operators.chrono) {
+                    const [min, max] = operators.chrono.split('-').map(Number);
+                    const maxVal = max !== undefined && !isNaN(max) ? max : min;
+                    if (item.chrono < min || item.chrono > maxVal) return false;
+                }
+
+                // Free-text search on title
+                if (freeText && !item.title.toLowerCase().includes(freeText)) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // 3. ENHANCED DISPLAY WITH RESULT METADATA
+        // ─────────────────────────────────────────────────────────────
         function display(items) {
             const output = document.getElementById("output");
             
             let header = `┌────────────────────────────────────────────────────────────────────────┐\n`;
             header += `│ GALACTIC ARCHIVE SYSTEMS v4.2                                          │\n`;
-            header += `│ CLASSIFICATION SORT: [CHRONOLOGICAL_SEQUENCE  ]                        │\n`;
+            
+            const sortLabel = currentSort === 'chrono' ? 'CHRONOLOGICAL_SEQUENCE' : 'RELEASE_DATE_SEQUENCE ';
+            header += `│ CLASSIFICATION SORT: [${sortLabel.padEnd(24, ' ')}]                        │\n`;
+            header += `│ KEYBOARD: [/] search [?] help [w] watchlist [esc] clear               │\n`;
             header += `└────────────────────────────────────────────────────────────────────────┘\n\n`;
-            header += ` YEAR  TYPE   FILE_NAME\n`;
-            header += ` ────  ────── ───────────────────────────────────────────────────────────\n`;
+            header += ` YEAR  TYPE   CHRONO FILE_NAME\n`;
+            header += ` ────  ────── ────── ───────────────────────────────────────────────────\n`;
             
             if (items.length === 0) {
-                output.textContent = header + " [!] 0 File(s) found matching search criteria.\n";
+                output.innerHTML = header + " [!] 0 File(s) found matching search criteria.\n";
                 return;
             }
             
             const rows = items.map(item => {
                 const year = item.year.padEnd(4, ' ');
                 const type = item.type.toUpperCase().padEnd(6, ' '); 
+                const chrono = String(item.chrono).padEnd(6, ' ');
                 const title = item.title.toUpperCase();
-                return ` ${year}  ${type}  ${title}`;
-            }).join("\n");
+                const inWatchlist = watchlistMgr.has(item.title) ? ' [★]' : '';
+                
+                // Wrap in div to enable hover tracking
+                const jsonStr = JSON.stringify(item).replace(/"/g, '&quot;');
+                return `<div class="hover:bg-[#222222] hover:text-[#ffffff]" data-item-title="${item.title.replace(/"/g, '&quot;')}" data-item-json="${jsonStr}"> ${year}  ${type}  ${chrono} ${title}${inWatchlist}</div>`;
+            }).join("");
             
             const footer = `\n\n 💾 [STATUS]: ${items.length} Record(s) indexed successfully.`;
-            output.textContent = header + rows + footer;
+            output.innerHTML = header + rows + footer;
+
+            addResultHoverHandlers();
         }
 
+        // ─────────────────────────────────────────────────────────────
+        // 4. MAIN SEARCH FILTER
+        // ─────────────────────────────────────────────────────────────
         function runSearchFilter() {
             if (!systemActive) return;
 
             const value = document.getElementById("search").value.toLowerCase().trim();
-            let baseList = [...data];
             
-            // Hardcoded strictly to Chronological Order
-            baseList.sort((a, b) => {
-                const primaryDiff = a.chrono - b.chrono;
-                if (primaryDiff !== 0) return primaryDiff;
-                return a.title.localeCompare(b.title);
+            // Use new advanced parser
+            let filtered = parseAdvancedQuery(value);
+            
+            filtered.sort((a, b) => {
+                if (currentSort === 'chrono') {
+                    // Sort by Timeline Order
+                    const primaryDiff = a.chrono - b.chrono;
+                    if (primaryDiff !== 0) return primaryDiff;
+                    return a.title.localeCompare(b.title);
+                } else {
+                    // Sort by Real World Release Year
+                    const yearA = parseInt(a.year.replace(/[^0-9]/g, '')) || 9999;
+                    const yearB = parseInt(b.year.replace(/[^0-9]/g, '')) || 9999;
+                    const primaryDiff = yearA - yearB;
+                    if (primaryDiff !== 0) return primaryDiff;
+                    return a.title.localeCompare(b.title);
+                }
             });
-
-            const filtered = baseList.filter(item => 
-                item.title.toLowerCase().includes(value) || 
-                item.type.toLowerCase().includes(value) || 
-                item.year.toString().includes(value)
-            );
             
             display(filtered);
         }
+
+        // Store the currently selected item when user hovers a result
+        function addResultHoverHandlers() {
+            const rows = document.querySelectorAll('[data-item-title]');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    window.selectedItem = JSON.parse(row.getAttribute('data-item-json'));
+                });
+                row.addEventListener('mouseleave', () => {
+                    window.selectedItem = null;
+                });
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // 5. HELP PANEL (? key)
+        // ─────────────────────────────────────────────────────────────
+        function showHelp() {
+            const output = document.getElementById('output');
+            const help = `
+┌────────────────────────────────────────────────────────────────────────┐
+│                        COMMAND REFERENCE                               │
+├────────────────────────────────────────────────────────────────────────┤
+│ NAVIGATION                                                             │
+│   /  or Ctrl+F     Focus search input and select all text              │
+│   ?                Show this help screen                               │
+│   Esc              Clear search box                                    │
+│                                                                        │
+│ SEARCH OPERATORS (combine for advanced queries)                        │
+│   type:movie       Filter by type (movie, series, doc, anim, etc)      │
+│   type:series                                                          │
+│   year:1999        Filter by release year (or partial: year:19)        │
+│   chrono:1-7       Show chrono positions 1 through 7                   │
+│   chrono:17        Show only position 17                               │
+│                                                                        │
+│ EXAMPLES                                                               │
+│   > type:movie year:2019                                               │
+│   > mandalorian (free-text search)                                     │
+│   > type:series chrono:1-10                                            │
+│                                                                        │
+│ WATCHLIST                                                              │
+│   w (while hovering)   Add item to watchlist                           │
+│                        Watchlist saved to browser (localStorage)       │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────┤
+│ Press any key to close. Press / to search.                             │
+└────────────────────────────────────────────────────────────────────────┘
+`;
+            output.textContent = help;
+
+            // Close help on any keypress
+            const closeHelp = (e) => {
+                // Ensure we don't instantly close it if they just pressed '?'
+                if (e.key === '?') return; 
+                runSearchFilter();
+                document.removeEventListener('keydown', closeHelp);
+            };
+            setTimeout(() => {
+                document.addEventListener('keydown', closeHelp);
+            }, 100);
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // 6. EVENT LISTENERS
+        // ─────────────────────────────────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (!systemActive) return;
+
+            // Don't trigger shortcuts if user is typing in search box
+            if (e.target.id === 'search' && e.key !== 'Escape') {
+                return;
+            }
+
+            // "/" or Ctrl+F: Focus search
+            if (e.key === '/' || (e.ctrlKey && e.key === 'f')) {
+                e.preventDefault();
+                document.getElementById('search').focus();
+                document.getElementById('search').select();
+            }
+
+            // "?" : Show help
+            if (e.key === '?') {
+                e.preventDefault();
+                showHelp();
+            }
+
+            // "Escape" : Clear search
+            if (e.key === 'Escape') {
+                document.getElementById('search').value = '';
+                runSearchFilter();
+            }
+
+            // "w" : Add selected item to watchlist (when a result is hovered)
+            if (e.key === 'w' && window.selectedItem) {
+                watchlistMgr.add(window.selectedItem);
+                runSearchFilter(); // Refresh view to show the [★] tag
+            }
+        });
 
         document.addEventListener('click', function(e) {
             if (!systemActive) return;
